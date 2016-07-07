@@ -194,8 +194,8 @@ module Homebrew
   end
 
   def self.system(cmd, *args)
-    puts "#{cmd} #{args*" "}" if ARGV.verbose?
-    _system(cmd, *args)
+    puts "#{cmd} #{args*" "}" if !ARGV.kind_of?(Array) && ARGV.verbose?
+    _system(cmd, *args.map(&:to_s))
   end
 
   def self.git_origin
@@ -331,12 +331,12 @@ end
 
 # Kernel.system but with exceptions
 def safe_system(cmd, *args)
-  Homebrew.system(cmd, *args) || raise(ErrorDuringExecution.new(cmd, args))
+  Homebrew.system(cmd, *args.map(&:to_s)) || raise(ErrorDuringExecution.new(cmd, args))
 end
 
 # prints no output
 def quiet_system(cmd, *args)
-  Homebrew._system(cmd, *args) do
+  Homebrew._system(cmd, *args.map(&:to_s)) do
     # Redirect output streams to `/dev/null` instead of closing as some programs
     # will fail to execute if they can't write to an open stream.
     $stdout.reopen("/dev/null")
