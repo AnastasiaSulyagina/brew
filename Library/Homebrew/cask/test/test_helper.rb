@@ -164,14 +164,15 @@ require "tmpdir"
 require "tempfile"
 
 # pretend like we installed the homebrew-cask tap
-project_root = Pathname.new(File.expand_path("#{File.dirname(__FILE__)}/../"))
+tap_root = HOMEBREW_LIBRARY.join("Taps", "caskroom", "homebrew-cask")
+core_root = Pathname.new(File.expand_path("#{File.dirname(__FILE__)}/../"))
 taps_dest = Hbc.homebrew_prefix.join(*%w[Library Taps caskroom])
 
 # create directories
 FileUtils.mkdir_p taps_dest
 FileUtils.mkdir_p Hbc.homebrew_prefix.join("bin")
 
-FileUtils.ln_s project_root, taps_dest.join("homebrew-cask")
+FileUtils.ln_s tap_root, taps_dest.join("homebrew-cask")
 
 # Common superclass for test Casks for when we need to filter them out
 class Hbc::TestCask < Hbc::Cask; end
@@ -184,4 +185,4 @@ FileUtils.ln_s "/usr/local/bin/unxz", Hbc.homebrew_prefix.join("bin/unxz")
 FileUtils.ln_s "/usr/local/bin/lsar", Hbc.homebrew_prefix.join("bin/lsar")
 
 # also jack in some test Casks
-FileUtils.ln_s project_root.join("test", "support"), taps_dest.join("homebrew-testcasks")
+FileUtils.ln_s core_root.join("test", "support"), taps_dest.join("homebrew-testcasks")

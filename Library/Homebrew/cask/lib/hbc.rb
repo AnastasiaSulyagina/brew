@@ -45,7 +45,6 @@ module Hbc
 
   def self.init
     odebug "Creating directories"
-
     # cache
     Hbc.cache.mkpath unless Hbc.cache.exist?
     if Hbc.legacy_cache.exist?
@@ -98,8 +97,6 @@ module Hbc
 
   def self.load(query)
     odebug "Loading Cask definitions"
-    # TODO REMOVE
-    puts "path before " + query.to_s
     cask = Hbc::Source.for_query(query).load
     cask.dumpcask
     cask

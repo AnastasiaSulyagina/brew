@@ -12,8 +12,6 @@ class Hbc::Source::PathBase
 
   def initialize(path)
     @path = Pathname(path).expand_path
-    # TODO REMOVE
-    #puts "11" + Pathname(path).expand_path
   end
 
   def load
@@ -31,8 +29,6 @@ class Hbc::Source::PathBase
   private
 
   def load_cask
-    # TODO REMOVE
-    puts "path: " + path.to_s
     #puts "with: " + cask_contents.to_s
     instance_eval(cask_contents, __FILE__, __LINE__)
   rescue Hbc::CaskError, StandardError, ScriptError => e
